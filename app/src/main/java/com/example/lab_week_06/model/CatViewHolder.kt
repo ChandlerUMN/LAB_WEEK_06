@@ -12,11 +12,13 @@ private const val MALE_SYMBOL = "\u2642"
 private const val UNKNOWN_SYMBOL = "?"
 
 class CatViewHolder(
-    containerView: View,
-    private val imageLoader: ImageLoader
-) : RecyclerView.ViewHolder(containerView) {
+    private val containerView: View,
+    private val imageLoader: ImageLoader,
+    private val onClickListener: CatAdapter.OnClickListener
+)
+: RecyclerView.ViewHolder(containerView) {
 
-    // Find and cache all the view references in the item layout
+    // Find the layout views
     private val catBiographyView: TextView by lazy {
         containerView.findViewById(R.id.cat_biography)
     }
@@ -33,27 +35,33 @@ class CatViewHolder(
         containerView.findViewById(R.id.cat_photo)
     }
 
-    // Bind the CatModel data into the item layout
+    // Called by adapter to bind each cat's data
     fun bindData(cat: CatModel) {
-        // Load the cat image using Glide through ImageLoader
-        imageLoader.loadImage(cat.imageUrl, catPhotoView)
+        // Handle click events for each item
+        containerView.setOnClickListener {
+            onClickListener.onItemClick(cat)
+        }
 
-        // Set text fields
+        // Load image and bind text
+        imageLoader.loadImage(cat.imageUrl, catPhotoView)
         catNameView.text = cat.name
         catBiographyView.text = cat.biography
 
-        // Set breed (we already cover all enum values, so no else needed)
         catBreedView.text = when (cat.breed) {
             CatBreed.AmericanCurl -> "American Curl"
             CatBreed.BalineseJavanese -> "Balinese-Javanese"
             CatBreed.ExoticShorthair -> "Exotic Shorthair"
         }
 
-        // Set gender symbol
         catGenderView.text = when (cat.gender) {
             Gender.Female -> FEMALE_SYMBOL
             Gender.Male -> MALE_SYMBOL
             Gender.Unknown -> UNKNOWN_SYMBOL
         }
     }
+}
+
+// Interface for handling item click events
+interface OnClickListener {
+    fun onItemClick(cat: CatModel)
 }

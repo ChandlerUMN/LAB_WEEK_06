@@ -1,14 +1,11 @@
 package com.example.lab_week_06
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab_week_06.model.CatAdapter
-import com.example.lab_week_06.model.CatModel
-import com.example.lab_week_06.model.CatBreed
-import com.example.lab_week_06.model.Gender
-import com.example.lab_week_06.model.GlideImageLoader
+import com.example.lab_week_06.model.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +15,15 @@ class MainActivity : AppCompatActivity() {
 
     private val catAdapter by lazy {
         // Glide is used here to load the images
-        CatAdapter(layoutInflater, GlideImageLoader(this))
+        // Here we are passing the onClickListener function to the Adapter
+        CatAdapter(
+            layoutInflater,
+            GlideImageLoader(this),
+            object : CatAdapter.OnClickListener {
+                // When this is triggered, the pop up dialog will be shown
+                override fun onItemClick(cat: CatModel) = showSelectionDialog(cat)
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,38 +33,47 @@ class MainActivity : AppCompatActivity() {
         // Setup the adapter for the recycler view
         recyclerView.adapter = catAdapter
 
-        // Setup the layout manager for the recycler view (vertical list)
+        // Setup the layout manager for the recycler view
         recyclerView.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
             false
         )
 
-        // Add data to the adapter
+        // Add data to the model list in the adapter
         catAdapter.setData(
             listOf(
                 CatModel(
-                    gender = Gender.Male,
-                    breed = CatBreed.BalineseJavanese,
-                    name = "Fred",
-                    biography = "Silent and deadly",
-                    imageUrl = "https://cdn2.thecatapi.com/images/7dj.jpg"
+                    Gender.Male,
+                    CatBreed.BalineseJavanese,
+                    "Fred",
+                    "Silent and deadly",
+                    "https://cdn2.thecatapi.com/images/7dj.jpg"
                 ),
                 CatModel(
-                    gender = Gender.Female,
-                    breed = CatBreed.ExoticShorthair,
-                    name = "Wilma",
-                    biography = "Cuddly assassin",
-                    imageUrl = "https://cdn2.thecatapi.com/images/egv.jpg"
+                    Gender.Female,
+                    CatBreed.ExoticShorthair,
+                    "Wilma",
+                    "Cuddly assassin",
+                    "https://cdn2.thecatapi.com/images/egv.jpg"
                 ),
                 CatModel(
-                    gender = Gender.Unknown,
-                    breed = CatBreed.AmericanCurl,
-                    name = "Curious George",
-                    biography = "Award winning investigator",
-                    imageUrl = "https://cdn2.thecatapi.com/images/bar.jpg"
+                    Gender.Unknown,
+                    CatBreed.AmericanCurl,
+                    "Curious George",
+                    "Award winning investigator",
+                    "https://cdn2.thecatapi.com/images/bar.jpg"
                 )
             )
         )
+    }
+
+    // This will create a pop up dialog when one of the items from the recycler view is clicked
+    private fun showSelectionDialog(cat: CatModel) {
+        AlertDialog.Builder(this)
+            .setTitle("Cat Selected")
+            .setMessage("You have selected cat ${cat.name}")
+            .setPositiveButton("OK") { _, _ -> }
+            .show()
     }
 }
