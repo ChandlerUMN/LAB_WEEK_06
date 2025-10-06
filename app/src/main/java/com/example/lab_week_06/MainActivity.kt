@@ -64,9 +64,59 @@ class MainActivity : AppCompatActivity() {
                     "Curious George",
                     "Award winning investigator",
                     "https://cdn2.thecatapi.com/images/bar.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.Bengal,
+                    "Shadow",
+                    "Fast and playful",
+                    "https://cdn2.thecatapi.com/images/O3btzLlsO.png"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.MaineCoon,
+                    "Luna",
+                    "Loves naps and attention",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.Sphynx,
+                    "Baldy",
+                    "Chills a lot, literally",
+                    "https://cdn2.thecatapi.com/images/BDb8ZXb1v.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.Siamese,
+                    "Misty",
+                    "Talkative and elegant",
+                    "https://cdn2.thecatapi.com/images/ai6Jps4sx.jpg"
+                ),
+                CatModel(
+                    Gender.Unknown,
+                    CatBreed.Ragdoll,
+                    "Coco",
+                    "Soft as a cloud",
+                    "https://cdn2.thecatapi.com/images/KBroiVNcm.jpg"
+                ),
+                CatModel(
+                    Gender.Male,
+                    CatBreed.BritishShorthair,
+                    "Oliver",
+                    "Loves climbing curtains",
+                    "https://cdn2.thecatapi.com/images/nhXzQyq0C.jpg"
+                ),
+                CatModel(
+                    Gender.Female,
+                    CatBreed.Birman,
+                    "Snowy",
+                    "Graceful and sweet",
+                    "https://cdn2.thecatapi.com/images/HOrX5gwLS.jpg"
                 )
             )
         )
+
 
         //Instantiate ItemTouchHelper for the swipe to delete callback and
         //attach it to the recycler view
