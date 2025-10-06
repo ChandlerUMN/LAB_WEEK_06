@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab_week_06.model.*
+import androidx.recyclerview.widget.ItemTouchHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,6 +67,12 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         )
+
+        //Instantiate ItemTouchHelper for the swipe to delete callback and
+        //attach it to the recycler view
+        val itemTouchHelper = ItemTouchHelper(catAdapter.swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
     }
 
     // This will create a pop up dialog when one of the items from the recycler view is clicked

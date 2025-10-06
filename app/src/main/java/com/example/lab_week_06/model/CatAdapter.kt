@@ -2,6 +2,7 @@ package com.example.lab_week_06.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab_week_06.R
 
@@ -14,12 +15,22 @@ class CatAdapter(
     // Mutable list for storing all the list data
     private val cats = mutableListOf<CatModel>()
 
+    // Delete Callback Instantiation (for swipe-to-delete)
+    val swipeToDeleteCallback = SwipeToDeleteCallback()
+
     // Function to set the mutable list
     fun setData(newCats: List<CatModel>) {
         cats.clear()
         cats.addAll(newCats)
         // Notify the adapter that data has changed
         notifyDataSetChanged()
+    }
+
+
+    // Function to remove item from list
+    fun removeItem(position: Int) {
+        cats.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     // Create ViewHolder
@@ -39,5 +50,23 @@ class CatAdapter(
     // Declare OnClickListener interface
     interface OnClickListener {
         fun onItemClick(cat: CatModel)
+    }
+
+    // Inner class for swipe-to-delete functionality
+    inner class SwipeToDeleteCallback :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+        // Disable drag & drop movement
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean = false
+
+        // Called when a swipe is detected
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            removeItem(position)
+        }
     }
 }
